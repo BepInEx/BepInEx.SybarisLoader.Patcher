@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BepInEx.SybarisLoader.Patcher", "BepInEx.SybarisLoader.Patcher\BepInEx.SybarisLoader.Patcher.csproj", "{A78D3C08-CA5A-4A0A-95DE-81808054961F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A78D3C08-CA5A-4A0A-95DE-81808054961F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A78D3C08-CA5A-4A0A-95DE-81808054961F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A78D3C08-CA5A-4A0A-95DE-81808054961F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A78D3C08-CA5A-4A0A-95DE-81808054961F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0BAD3A8-649D-44F3-81B0-B373E36C3B8C}
+	EndGlobalSection
+EndGlobal
