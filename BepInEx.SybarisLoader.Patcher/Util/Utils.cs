@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -6,15 +7,11 @@ namespace BepInEx.SybarisLoader.Patcher.Util
 {
     public static class Utils
     {
-        static Utils()
-        {
-            SybarisDir = Path.GetFullPath($@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\..\..\Sybaris\");
-        }
-
         /// <summary>
-        ///     Patches directory for UnityPrePatcher.
+        ///     Patches directory for Sybaris.
         /// </summary>
-        public static string SybarisDir { get; }
+        public static string SybarisDir { get; } = // Another solution would be to use native GetModuleFileName, since we're running in the game's process anyway
+            Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), "Sybaris"));
 
         /// <summary>
         ///     Try to resolve and load the given assembly DLL.
