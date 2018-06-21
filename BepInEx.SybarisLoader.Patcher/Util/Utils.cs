@@ -10,8 +10,10 @@ namespace BepInEx.SybarisLoader.Patcher.Util
         /// <summary>
         ///     Patches directory for Sybaris.
         /// </summary>
-        public static string SybarisDir { get; } = // Another solution would be to use native GetModuleFileName, since we're running in the game's process anyway
-            Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName), "Sybaris"));
+        public static string SybarisDir { get; }
+            = // Another solution would be to use native GetModuleFileName, since we're running in the game's process anyway
+            Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+                                          Config.GetEntry("sybaris-patches-location", "Sybaris", "org.bepinex.patchers.sybarisloader")));
 
         /// <summary>
         ///     Try to resolve and load the given assembly DLL.

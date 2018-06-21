@@ -9,7 +9,18 @@ This is a patcher for [BepInEx 4.0](https://github.com/BepInEx/BepInEx) that all
 
 ## Installation
 
-Put `BepInEx.SybarisLoader.Patcher.dll` into `BepInEx\patchers` folder.  
+1. Put `BepInEx.SybarisLoader.Patcher.dll` into `BepInEx\patchers` folder.  
+
+2. Add and **modify** the following options in the `BepInEx\config.ini`:
+  
+  ```ini
+  [org.bepinex.patchers.sybarisloader]
+  ; Location of Sybaris patchers
+  ; For Sybaris 2 this should be Sybaris
+  ; For Sybaris 1 this should be Sybaris\Loader
+  sybaris-patches-location=Sybaris
+  ```
+
 
 Put Sybaris patches into `Sybaris` folder as you have done before.
 

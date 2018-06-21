@@ -13,7 +13,6 @@ namespace BepInEx.SybarisLoader.Patcher
     {
         private static Dictionary<string, List<MethodInfo>> patchersDictionary;
 
-
         private static IEnumerable<string> _targetDLLs = null;
 
         public static IEnumerable<string> TargetDLLs
@@ -36,6 +35,12 @@ namespace BepInEx.SybarisLoader.Patcher
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePatchers;
 
             patchersDictionary = new Dictionary<string, List<MethodInfo>>(StringComparer.InvariantCultureIgnoreCase);
+
+            if (!Directory.Exists(Utils.SybarisDir))
+            {
+                Trace.TraceWarning($"{Utils.SybarisDir} does not exist! Creating one...");
+                return;
+            }
 
             Trace.TraceInformation($"Loading patchers from \"{Utils.SybarisDir}\"");
 
