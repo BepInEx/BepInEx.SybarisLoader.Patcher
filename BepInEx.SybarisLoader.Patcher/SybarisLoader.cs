@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Mono.Cecil;
 using BepInEx.SybarisLoader.Patcher.Util;
@@ -13,30 +12,15 @@ namespace BepInEx.SybarisLoader.Patcher
     {
         private static Dictionary<string, List<MethodInfo>> patchersDictionary;
 
-        private static IEnumerable<string> _targetDLLs = null;
+        public static IEnumerable<string> TargetDLLs => patchersDictionary.Keys;
 
-        public static IEnumerable<string> TargetDLLs
-        {
-            get
-            {
-                if (_targetDLLs == null)
-                {
-                    Init();
-
-                    _targetDLLs = patchersDictionary.Keys;
-                }
-
-                return _targetDLLs;
-            }
-        }
-
-        private static void Init()
+        public static void Initialize()
         {
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePatchers;
 
             patchersDictionary = new Dictionary<string, List<MethodInfo>>(StringComparer.InvariantCultureIgnoreCase);
 
-            if (!Directory.Exists(Utils.SybarisDir))
+            if (!Directory.Exists(Utils.SybarisDir.Value))
             {
                 Trace.TraceWarning($"{Utils.SybarisDir} does not exist! Creating one...");
                 return;
@@ -44,7 +28,7 @@ namespace BepInEx.SybarisLoader.Patcher
 
             Trace.TraceInformation($"Loading patchers from \"{Utils.SybarisDir}\"");
 
-            foreach (string dll in Directory.GetFiles(Utils.SybarisDir, "*.Patcher.dll"))
+            foreach (string dll in Directory.GetFiles(Utils.SybarisDir.Value, "*.Patcher.dll"))
             {
                 Assembly assembly;
 
@@ -132,7 +116,7 @@ namespace BepInEx.SybarisLoader.Patcher
         public static Assembly ResolvePatchers(object sender, ResolveEventArgs args)
         {
             // Try to resolve from patches directory
-            if (Utils.TryResolveDllAssembly(args.Name, Utils.SybarisDir, out Assembly patchAssembly))
+            if (Utils.TryResolveDllAssembly(args.Name, Utils.SybarisDir.Value, out Assembly patchAssembly))
                 return patchAssembly;
             return null;
         }

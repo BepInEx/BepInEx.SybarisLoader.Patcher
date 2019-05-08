@@ -2,18 +2,26 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using BepInEx.Configuration;
 
 namespace BepInEx.SybarisLoader.Patcher.Util
 {
     public static class Utils
     {
+        private static ConfigFile config;
+
         /// <summary>
         ///     Patches directory for Sybaris.
         /// </summary>
-        public static string SybarisDir { get; }
-            = // Another solution would be to use native GetModuleFileName, since we're running in the game's process anyway
-            Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
-                                          Config.GetEntry("sybaris-patches-location", "Sybaris", "org.bepinex.patchers.sybarisloader")));
+        public static ConfigWrapper<string> SybarisDir { get; }
+
+        static Utils()
+        {
+            config = new ConfigFile(Path.Combine(Paths.BepInExConfigPath, "SybarisLoader.cfg"), true);
+            SybarisDir = config.Wrap("Paths", "SybarisPath",
+                                     "Path where Sybaris patchers are located\nPath is relative to game root",
+                                     "Sybaris");
+        }
 
         /// <summary>
         ///     Try to resolve and load the given assembly DLL.
