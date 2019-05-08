@@ -17,6 +17,14 @@ namespace BepInEx.SybarisLoader.Patcher
 
         public static ManualLogSource Log = Logger.CreateLogSource("SybarisLoader");
 
+        public static void Finish()
+        {
+            Log.Dispose();
+            Log = null;
+            patchersDictionary.Clear();
+            patchersDictionary = null;
+        }
+
         public static void Initialize()
         {
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePatchers;
