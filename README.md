@@ -1,27 +1,18 @@
 # BepInEx.SybarisLoader.Patcher
 
 
-This is a patcher for [BepInEx 4.0](https://github.com/BepInEx/BepInEx) that allows to apply Sybaris-style patches to the game.  
+This is a patcher for [BepInEx 5.0 RC1](https://github.com/BepInEx/BepInEx) that allows to apply Sybaris-style patches to the game.  
 
 ## Requirements
 
-* BepInEx 4.0 or newer
+* BepInEx 5.0 RC1 or newer
 
 ## Installation
 
-1. Put `BepInEx.SybarisLoader.Patcher.dll` into `BepInEx\patchers` folder.  
+1. Extract the contents of the archive into `BepInEx` folder.  
 
-2. Add and **modify** the following options in the `BepInEx\config.ini`:
+2. Modify the configuration options in `BepInEx\config\SybarisLoader.cfg`
   
-  ```ini
-  [org.bepinex.patchers.sybarisloader]
-  ; Location of Sybaris patchers
-  ; For Sybaris 2 this should be Sybaris
-  ; For Sybaris 1 this should be Sybaris\Loader
-  sybaris-patches-location=Sybaris
-  ```
-
-
 Put Sybaris patches into `Sybaris` folder as you have done before.
 
 > ⚠️ **NOTE** ⚠️
