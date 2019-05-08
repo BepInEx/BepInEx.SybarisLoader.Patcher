@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using BepInEx.Logging;
 using Mono.Cecil;
 using BepInEx.SybarisLoader.Patcher.Util;
 
@@ -10,23 +11,23 @@ namespace BepInEx.SybarisLoader.Patcher
 {
     public static class Loader
     {
-        private static Dictionary<string, List<MethodInfo>> patchersDictionary;
+        private static Dictionary<string, List<MethodInfo>> patchersDictionary = new Dictionary<string, List<MethodInfo>>(StringComparer.InvariantCultureIgnoreCase);
 
-        public static IEnumerable<string> TargetDLLs => patchersDictionary.Keys;
+        public static IEnumerable<string> TargetDLLs => patchersDictionary.Select(k => k.Key);
+
+        public static ManualLogSource Log = Logger.CreateLogSource("SybarisLoader");
 
         public static void Initialize()
         {
             AppDomain.CurrentDomain.AssemblyResolve += ResolvePatchers;
 
-            patchersDictionary = new Dictionary<string, List<MethodInfo>>(StringComparer.InvariantCultureIgnoreCase);
-
             if (!Directory.Exists(Utils.SybarisDir.Value))
             {
-                Trace.TraceWarning($"{Utils.SybarisDir} does not exist! Creating one...");
+                Log.LogWarning($"{Utils.SybarisDir} does not exist! Creating one...");
                 return;
             }
 
-            Trace.TraceInformation($"Loading patchers from \"{Utils.SybarisDir}\"");
+            Log.LogWarning($"Loading patchers from \"{Utils.SybarisDir}\"");
 
             foreach (string dll in Directory.GetFiles(Utils.SybarisDir.Value, "*.Patcher.dll"))
             {
@@ -38,14 +39,14 @@ namespace BepInEx.SybarisLoader.Patcher
                 }
                 catch (Exception e)
                 {
-                    Trace.TraceError($"Failed to load {dll}: {e.Message}");
+                    Log.LogError($"Failed to load {dll}: {e.Message}");
                     if (e.InnerException != null)
-                        Trace.TraceError($"Inner: {e.Message}");
+                        Log.LogError($"Inner: {e.Message}");
 
                     continue;
                 }
 
-                Trace.TraceInformation($"Loaded {dll}");
+                Log.LogInfo($"Loaded {dll}");
 
                 foreach (Type type in assembly.GetTypes())
                 {
@@ -73,7 +74,7 @@ namespace BepInEx.SybarisLoader.Patcher
                     if (requestedAssemblies == null || requestedAssemblies.Length == 0)
                         continue;
 
-                    Trace.TraceInformation($"Adding {type.FullName}");
+                    Log.LogInfo($"Adding {type.FullName}");
 
                     foreach (string requestedAssembly in requestedAssemblies)
                     {
@@ -92,7 +93,7 @@ namespace BepInEx.SybarisLoader.Patcher
         public static void Patch(AssemblyDefinition assembly)
         {
 
-            Trace.TraceInformation($"Patching assembly: {assembly.FullName}");
+            Log.LogInfo($"Patching assembly: {assembly.FullName}");
 
             string assemblyName = $"{assembly.Name.Name}.dll";
 
@@ -103,12 +104,12 @@ namespace BepInEx.SybarisLoader.Patcher
             {
                 try
                 {
-                    Trace.TraceInformation($"Invoking: {method.DeclaringType.FullName}:{method.Name}");
+                    Log.LogInfo($"Invoking: {method.DeclaringType.FullName}:{method.Name}");
                     method.Invoke(null, new object[] {assembly});
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError(ex.ToString());
+                    Log.LogError(ex.ToString());
                 }
             }
         }

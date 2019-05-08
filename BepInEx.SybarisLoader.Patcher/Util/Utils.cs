@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using BepInEx.Configuration;
@@ -17,7 +16,7 @@ namespace BepInEx.SybarisLoader.Patcher.Util
 
         static Utils()
         {
-            config = new ConfigFile(Path.Combine(Paths.BepInExConfigPath, "SybarisLoader.cfg"), true);
+            config = new ConfigFile(Path.Combine(Paths.ConfigPath, "SybarisLoader.cfg"), true);
             SybarisDir = config.Wrap("Paths", "SybarisPath",
                                      "Path where Sybaris patchers are located\nPath is relative to game root",
                                      "Sybaris");
