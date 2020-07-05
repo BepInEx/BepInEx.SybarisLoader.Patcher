@@ -12,14 +12,20 @@ namespace BepInEx.SybarisLoader.Patcher.Util
         /// <summary>
         ///     Patches directory for Sybaris.
         /// </summary>
-        public static ConfigWrapper<string> SybarisDir { get; }
+        public static ConfigEntry<string> SybarisDir { get; }
+        
+        public static ConfigEntry<string> ResolveManagedFolder { get; }
 
         static Utils()
         {
             config = new ConfigFile(Path.Combine(Paths.ConfigPath, "SybarisLoader.cfg"), true);
-            SybarisDir = config.Wrap("Paths", "SybarisPath",
-                                     "Path where Sybaris patchers are located\nPath is relative to game root",
-                                     "Sybaris");
+            SybarisDir = config.Bind("Paths", "SybarisPath",
+                            "Sybaris",
+                                     "Path where Sybaris patchers are located\nPath is relative to game root");
+            
+            ResolveManagedFolder = config.Bind("Paths", "ResolveManagedDir",
+                string.Empty,
+                "Additional path to resolve (needed for example by Sybaris 1)");
         }
 
         /// <summary>

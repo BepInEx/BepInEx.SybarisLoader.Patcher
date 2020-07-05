@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BepInEx">
+    <Reference Include="BepInEx, Version=5.1.0.224, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\lib\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">

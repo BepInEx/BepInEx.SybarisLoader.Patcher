@@ -35,7 +35,7 @@ namespace BepInEx.SybarisLoader.Patcher
                 return;
             }
 
-            Log.LogWarning($"Loading patchers from \"{Utils.SybarisDir}\"");
+            Log.LogInfo($"Loading patchers from \"{Utils.SybarisDir.Value}\"");
 
             foreach (string dll in Directory.GetFiles(Utils.SybarisDir.Value, "*.Patcher.dll"))
             {
@@ -124,8 +124,10 @@ namespace BepInEx.SybarisLoader.Patcher
 
         public static Assembly ResolvePatchers(object sender, ResolveEventArgs args)
         {
-            // Try to resolve from patches directory
             if (Utils.TryResolveDllAssembly(args.Name, Utils.SybarisDir.Value, out Assembly patchAssembly))
+                return patchAssembly;
+            if (!string.IsNullOrEmpty(Utils.ResolveManagedFolder.Value) &&
+                Utils.TryResolveDllAssembly(args.Name, Utils.ResolveManagedFolder.Value, out patchAssembly))
                 return patchAssembly;
             return null;
         }
